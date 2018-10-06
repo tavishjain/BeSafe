@@ -29,7 +29,7 @@
         android:id="@+id/panicBtn"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_margin="@dimen/margin"
+        android:layout_margin="@dimen/app_margin"
         android:background="@drawable/btn_bg"
         android:text="@string/panic_alert"
         android:textColor="@android:color/white"
@@ -38,5 +38,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        >
+
+    </GridLayout>
 
 </android.support.constraint.ConstraintLayout>
