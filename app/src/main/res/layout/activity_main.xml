@@ -102,23 +102,13 @@
                         android:textColor="@android:color/white" />
 
                     <Button
-                        android:id="@+id/btn3"
+                        android:id="@+id/btnScore"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="4dp"
                         android:background="@drawable/grad_three"
-                        android:text="@string/send_location_update"
+                        android:text="@string/safety_score"
                         android:textColor="@android:color/white" />
-
-                    <Button
-                        android:id="@+id/btn5"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_margin="4dp"
-                        android:background="@drawable/grad_five"
-                        android:text="@string/send_location_update"
-                        android:textColor="@android:color/white" />
-
 
                 </LinearLayout>
 
@@ -144,16 +134,7 @@
                         android:layout_height="100dp"
                         android:layout_margin="4dp"
                         android:background="@drawable/grad_four"
-                        android:text="@string/send_location_update"
-                        android:textColor="@android:color/white" />
-
-                    <Button
-                        android:id="@+id/btn6"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_margin="4dp"
-                        android:background="@drawable/grad_six"
-                        android:text="@string/send_location_update"
+                        android:text="@string/call_nearby_police"
                         android:textColor="@android:color/white" />
 
 
