@@ -3,6 +3,8 @@
     <string name="panic_alert">Panic Alert!</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="current_location">Current Location</string>
+    <string name="edit_your_options">Edit your options</string>
 
     <string name="check_to_pass">I accept terms and conditions.</string>
     <string name="error_message">Please accept terms and conditions first.</string>
