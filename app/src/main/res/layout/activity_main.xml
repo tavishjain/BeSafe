@@ -11,8 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
-        android:elevation="6dp">
+        android:background="@android:color/white">
 
         <TextView
             android:id="@+id/toolBarText"
@@ -113,7 +112,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/btn_contact"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -129,7 +127,7 @@
                         android:textColor="@android:color/white" />
 
                     <Button
-                        android:id="@+id/btn2"
+                        android:id="@+id/btnCallPolice"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="4dp"
