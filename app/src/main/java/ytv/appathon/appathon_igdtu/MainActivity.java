@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.SEND_SMS,
                         Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.CALL_PHONE)
+                        Manifest.permission.CALL_PHONE,
+                        Manifest.permission.READ_CONTACTS)
                 .withListener(new MultiplePermissionsListener() {
 
                     @Override

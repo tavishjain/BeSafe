@@ -53,7 +53,7 @@ public class SafetyTipsFetch {
         setAllTips();
         Random rand = new Random();
 
-        generatedRandomNum = rand.nextInt(13) + 1;
+        generatedRandomNum = rand.nextInt(12) + 1;
     }
 
     public static String[] returnDetails(){
