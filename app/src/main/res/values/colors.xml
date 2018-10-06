@@ -18,5 +18,6 @@
 
     <color name="custom_slide_background">#3F51B5</color>
     <color name="custom_slide_buttons">#1A237E</color>
+    <color name="google_signin_buttons">#EFEFEF</color>
 
 </resources>
