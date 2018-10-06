@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -31,17 +32,12 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-<<<<<<< HEAD
-=======
-
-import android.view.View;
-
->>>>>>> 7648a2b51eef249adb6e6b3c8ba74d39073dba1d
 import com.wafflecopter.multicontactpicker.ContactResult;
 import com.wafflecopter.multicontactpicker.LimitColumn;
 import com.wafflecopter.multicontactpicker.MultiContactPicker;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,6 +56,8 @@ public class MainActivity extends AppCompatActivity
     private LocationManager locationManager;
 
     private double latitude, longitude;
+
+    MediaPlayer mp;
 
     private static final int CONTACT_PICKER_REQUEST = 991;
 //    private ArrayList<ContactResult> results = new ArrayList<>();
@@ -158,6 +156,24 @@ public class MainActivity extends AppCompatActivity
                 System.out.println("User closed the picker without selecting items.");
             }
         }
+    }
+
+    @OnClick(R.id.panicBtn)
+    public void panicBtnClick(){
+        audioPlayer();
+        sendStatusUpdateMsg();
+    }
+
+    public void audioPlayer(){
+        //set up MediaPlayer
+        mp = MediaPlayer.create(MainActivity.this, R.raw.siren);
+        mp.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mp.release();
+        super.onDestroy();
     }
 
     public void setContactName(String name) {
