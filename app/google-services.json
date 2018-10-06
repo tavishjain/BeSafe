@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "517515712564",
+    "firebase_url": "https://appathonigdtu.firebaseio.com",
+    "project_id": "appathonigdtu",
+    "storage_bucket": "appathonigdtu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517515712564:android:8606cdd235505b73",
+        "android_client_info": {
+          "package_name": "ytv.appathon.appathon_igdtu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "517515712564-pgetm9f93krvih25lrl9dtqncv78qioh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ytv.appathon.appathon_igdtu",
+            "certificate_hash": "e5fa556081e3efc8cd0efc90139ddbb98cae1bcc"
+          }
+        },
+        {
+          "client_id": "517515712564-vkmf0fharddhdk30aveoavlf18ql5e8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKtwBVZBrFHJr8VkZ98-Ta8uuehjG-bds"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "517515712564-vkmf0fharddhdk30aveoavlf18ql5e8q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
