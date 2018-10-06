@@ -28,7 +28,6 @@ public class HelpWidget extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.appwidget_help_button, configPendingIntent);
 
             context.startActivity(configIntent);
-
         }
     }
 
