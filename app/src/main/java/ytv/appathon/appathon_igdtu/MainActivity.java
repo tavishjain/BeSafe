@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +33,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import android.view.View;
 import com.wafflecopter.multicontactpicker.ContactResult;
 import com.wafflecopter.multicontactpicker.LimitColumn;
 import com.wafflecopter.multicontactpicker.MultiContactPicker;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity
     private LocationManager locationManager;
 
     private double latitude, longitude;
+
+    MediaPlayer mp;
 
     private static final int CONTACT_PICKER_REQUEST = 991;
 //    private ArrayList<ContactResult> results = new ArrayList<>();
@@ -80,7 +83,8 @@ public class MainActivity extends AppCompatActivity
                 .withPermissions(
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.SEND_SMS,
-                        Manifest.permission.READ_PHONE_STATE)
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.CALL_PHONE)
                 .withListener(new MultiplePermissionsListener() {
 
                     @Override
@@ -113,46 +117,60 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @OnClick(R.id.btn_contact)
-    public void onClick(View view){
-        switch (view.getId()){
-            case R.id.btn_contact:
-                new MultiContactPicker.Builder(MainActivity.this) //Activity/fragment context
-                        .theme(R.style.MyCustomPickerTheme) //Optional - default: MultiContactPicker.Azure
-                        .hideScrollbar(false) //Optional - default: false
-                        .showTrack(true) //Optional - default: true
-                        .searchIconColor(Color.WHITE) //Option - default: White
-                        .setChoiceMode(MultiContactPicker.CHOICE_MODE_MULTIPLE) //Optional - default: CHOICE_MODE_MULTIPLE
-                        .handleColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
-                        .bubbleColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
-                        .bubbleTextColor(Color.WHITE) //Optional - default: White
-                        .setTitleText("Select Contacts") //Optional - default: Select Contacts
+    @OnClick(R.id.btnSelContacts)
+    public void selectContacts() {
+        new MultiContactPicker.Builder(MainActivity.this) //Activity/fragment context
+                .theme(R.style.MyCustomPickerTheme) //Optional - default: MultiContactPicker.Azure
+                .hideScrollbar(false) //Optional - default: false
+                .showTrack(true) //Optional - default: true
+                .searchIconColor(Color.WHITE) //Option - default: White
+                .setChoiceMode(MultiContactPicker.CHOICE_MODE_MULTIPLE) //Optional - default: CHOICE_MODE_MULTIPLE
+                .handleColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
+                .bubbleColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
+                .bubbleTextColor(Color.WHITE) //Optional - default: White
+                .setTitleText("Select Contacts") //Optional - default: Select Contacts
 //                        .setSelectedContacts("10", "5" / myList) //Optional - will pre-select contacts of your choice. String... or List<ContactResult>
-                        .setLoadingType(MultiContactPicker.LOAD_ASYNC) //Optional - default LOAD_ASYNC (wait till all loaded vs stream results)
-                        .limitToColumn(LimitColumn.NONE) //Optional - default NONE (Include phone + email, limiting to one can improve loading time)
-                        .setActivityAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
-                                android.R.anim.fade_in,
-                                android.R.anim.fade_out) //Optional - default: No animation overrides
-                        .showPickerForResult(CONTACT_PICKER_REQUEST);
-            break;
-        }
+                .setLoadingType(MultiContactPicker.LOAD_ASYNC) //Optional - default LOAD_ASYNC (wait till all loaded vs stream results)
+                .limitToColumn(LimitColumn.NONE) //Optional - default NONE (Include phone + email, limiting to one can improve loading time)
+                .setActivityAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
+                        android.R.anim.fade_in,
+                        android.R.anim.fade_out) //Optional - default: No animation overrides
+                .showPickerForResult(CONTACT_PICKER_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == CONTACT_PICKER_REQUEST){
-            if(resultCode == RESULT_OK) {
+        if (requestCode == CONTACT_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
                 List<ContactResult> results = MultiContactPicker.obtainResult(data);
 
                 setContactName(results.get(0).getDisplayName());
 
 
                 Log.d("MyTag", results.get(0).getDisplayName());
-            } else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
                 System.out.println("User closed the picker without selecting items.");
             }
         }
+    }
+
+    @OnClick(R.id.panicBtn)
+    public void panicBtnClick(){
+        audioPlayer();
+        sendStatusUpdateMsg();
+    }
+
+    public void audioPlayer(){
+        //set up MediaPlayer
+        mp = MediaPlayer.create(MainActivity.this, R.raw.siren);
+        mp.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mp.release();
+        super.onDestroy();
     }
 
     public void setContactName(String name) {
@@ -217,6 +235,15 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @OnClick(R.id.btnCallPolice)
+    public void callNearbyPolice() {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "1091"));
+        try {
+            startActivity(intent);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void initSafetyTip() {
 
