@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
@@ -25,6 +26,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
 import android.view.View;
 
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
@@ -52,6 +54,11 @@ public class MainActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        assert mapFragment != null;
+        mapFragment.getMapAsync(this);
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Dexter.withActivity(MainActivity.this)
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -59,8 +66,8 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         try {
-                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                                    20000, 0,
+                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                                    1000, 0,
                                     MainActivity.this);
                         } catch (SecurityException e) {
                             e.printStackTrace();
@@ -87,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 
     private void init() {
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("");
         }
         toolbarText.setText(getResources().getString(R.string.app_name));
@@ -114,7 +121,9 @@ public class MainActivity extends AppCompatActivity
 
         LatLng currentLoc = new LatLng(latitude, longitude);
         googleMap.addMarker(new MarkerOptions().position(currentLoc));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLoc));
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLoc));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),
+                location.getLongitude()), 15.0f));
     }
 
     @Override
@@ -133,14 +142,14 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void initSafetyTip(){
+    public void initSafetyTip() {
 
         String safetyTip[] = SafetyTipsFetch.returnDetails();
 
         new LovelyStandardDialog(this, LovelyStandardDialog.ButtonLayout.VERTICAL)
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
-              //TODO add the app icon  .setIcon(R.drawable.ic_star_border_white_36dp)
+                //TODO add the app icon  .setIcon(R.drawable.ic_star_border_white_36dp)
                 .setTitle(safetyTip[0])
                 .setMessage(safetyTip[1])
                 .setPositiveButton("Hide Tips", new View.OnClickListener() {
