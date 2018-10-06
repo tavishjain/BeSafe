@@ -35,6 +35,6 @@ public class SplashScreen extends AppCompatActivity {
 
     public boolean getAppLaunch() {
         SharedPreferences sharedPreferences = getSharedPreferences("AppLaunch", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("AppLaunch", true);
+        return sharedPreferences.getBoolean("finish", true);
     }
 }
