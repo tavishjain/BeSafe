@@ -1,28 +1,35 @@
 package ytv.appathon.appathon_igdtu;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class HelpWidget extends AppWidgetProvider {
 
+    public static String WIDGET_BUTTON = "ytv.appathon.appathon_igdtu.APPWIDGET_UPDATE";
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
         for (int appWidgetId : appWidgetIds) {
 
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.help_widget);
-            appWidgetManager.updateAppWidget(appWidgetId, views);
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.help_widget);
+            Intent configIntent = new Intent(context, SplashScreen.class);
 
-            Intent intent = new Intent(context, SplashScreen.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            views.setOnClickPendingIntent(R.id.appwidget_help_button, pendingIntent);
+            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
+            Log.e("tavish", "click");
+            remoteViews.setOnClickPendingIntent(R.id.appwidget_help_button, configPendingIntent);
+
+            context.startActivity(configIntent);
         }
     }
 
