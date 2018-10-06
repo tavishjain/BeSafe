@@ -83,7 +83,6 @@ public class IntroActivity extends MaterialIntroActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("AppLaunch", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("finish", b);
-        editor.commit();
         editor.apply();
     }
 

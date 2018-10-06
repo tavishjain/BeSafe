@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 //TODO add the app icon  .setIcon(R.drawable.ic_star_border_white_36dp)
+                .setIcon(R.drawable.app_logo_main_round)
                 .setTitle(safetyTip[0])
                 .setMessage(safetyTip[1])
                 .setPositiveButton("Hide Tips", new View.OnClickListener() {
