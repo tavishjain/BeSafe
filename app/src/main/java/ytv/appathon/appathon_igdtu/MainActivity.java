@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,18 +22,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import android.view.View;
 
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity
         implements OnMapReadyCallback, LocationListener {
@@ -47,12 +53,16 @@ public class MainActivity extends AppCompatActivity
 
     private double latitude, longitude;
 
+    private SmsManager smsManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        smsManager = SmsManager.getDefault();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -61,32 +71,36 @@ public class MainActivity extends AppCompatActivity
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Dexter.withActivity(MainActivity.this)
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new PermissionListener() {
+                .withPermissions(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.SEND_SMS,
+                        Manifest.permission.READ_PHONE_STATE)
+                .withListener(new MultiplePermissionsListener() {
+
                     @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        try {
-                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                                    1000, 0,
-                                    MainActivity.this);
-                        } catch (SecurityException e) {
-                            e.printStackTrace();
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            try {
+                                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                                        1000, 0,
+                                        MainActivity.this);
+                            } catch (SecurityException e) {
+                                e.printStackTrace();
+                            }
+                            init();
+                        } else {
+                            Toast.makeText(MainActivity.this,
+                                    "Location Permission Required",
+                                    Toast.LENGTH_SHORT).show();
+                            finish();
                         }
-                        init();
                     }
 
                     @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(MainActivity.this,
-                                "Location Permission Required",
-                                Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
 
                     }
+
                 }).check();
         init();
         initSafetyTip();
@@ -166,4 +180,19 @@ public class MainActivity extends AppCompatActivity
                 })
                 .show();
     }
+
+    @OnClick(R.id.btnStatus)
+    public void sendStatusUpdateMsg() {
+        smsManager.sendTextMessage(
+                "+919811392201",
+                "9899061938",
+                getResources().getString(R.string.help_msg),
+                null,
+                null
+        );
+        Toast.makeText(MainActivity.this,
+                "Location update sent",
+                Toast.LENGTH_SHORT).show();
+    }
+
 }

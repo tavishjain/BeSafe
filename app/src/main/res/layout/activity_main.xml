@@ -92,72 +92,33 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <android.support.v7.widget.CardView
+                    <Button
+                        android:id="@+id/btnStatus"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp">
+                        android:background="@drawable/grad_one"
+                        android:text="@string/send_location_update"
+                        android:textColor="@android:color/white" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/grad_one">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="Option 1"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/white"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
+                    <Button
+                        android:id="@+id/btn3"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp">
+                        android:background="@drawable/grad_three"
+                        android:text="@string/send_location_update"
+                        android:textColor="@android:color/white" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/grad_three">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="Option 1"
-                                android:textColor="@android:color/white"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
+                    <Button
+                        android:id="@+id/btn5"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp">
+                        android:background="@drawable/grad_five"
+                        android:text="@string/send_location_update"
+                        android:textColor="@android:color/white" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/grad_five">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="Option 1"
-                                android:textColor="@android:color/white"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
 
                 </LinearLayout>
 
@@ -167,72 +128,33 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <android.support.v7.widget.CardView
+                    <Button
+                        android:id="@+id/btnSelContacts"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp">
+                        android:background="@drawable/grad_two"
+                        android:text="@string/select_your_contacts"
+                        android:textColor="@android:color/white" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/grad_two">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="@string/select_your_contacts"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/white"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
+                    <Button
+                        android:id="@+id/btn2"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp">
+                        android:background="@drawable/grad_four"
+                        android:text="@string/send_location_update"
+                        android:textColor="@android:color/white" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/grad_four">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="Option 1"
-                                android:textColor="@android:color/white"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
+                    <Button
+                        android:id="@+id/btn6"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp">
+                        android:background="@drawable/grad_six"
+                        android:text="@string/send_location_update"
+                        android:textColor="@android:color/white" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/grad_six">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="Option 1"
-                                android:textColor="@android:color/white"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
 
                 </LinearLayout>
 
