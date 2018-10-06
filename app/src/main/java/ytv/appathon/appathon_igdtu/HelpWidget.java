@@ -22,15 +22,16 @@ public class HelpWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.help_widget);
-            Intent configIntent = new Intent(context, SplashScreen.class);
+            Intent configIntent = new Intent(context, MainActivity.class);
 
             PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
             remoteViews.setOnClickPendingIntent(R.id.appwidget_help_button, configPendingIntent);
 
-            context.startActivity(configIntent);
-
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }
+
+
 
     @Override
     public void onEnabled(Context context) {

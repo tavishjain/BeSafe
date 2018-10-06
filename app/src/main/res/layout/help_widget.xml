@@ -3,15 +3,15 @@
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin">
 
-    <Button
+    <ImageButton
         android:id="@+id/appwidget_help_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
-        android:contentDescription="Help Button"
-        android:text="HELP !!!"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_bell"
         android:textColor="#ffffff"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
