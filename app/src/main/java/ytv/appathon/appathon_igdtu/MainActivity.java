@@ -25,6 +25,9 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import android.view.View;
+
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,11 +81,15 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 }).check();
+        init();
+        initSafetyTip();
     }
 
     private void init() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+        }
         toolbarText.setText(getResources().getString(R.string.app_name));
     }
 
@@ -123,5 +130,31 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+
+    public void initSafetyTip(){
+
+        String safetyTip[] = SafetyTipsFetch.returnDetails();
+
+        new LovelyStandardDialog(this, LovelyStandardDialog.ButtonLayout.VERTICAL)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorAccent)
+              //TODO add the app icon  .setIcon(R.drawable.ic_star_border_white_36dp)
+                .setTitle(safetyTip[0])
+                .setMessage(safetyTip[1])
+                .setPositiveButton("Hide Tips", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                })
+                .setNegativeButton("Show more Tips", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initSafetyTip();
+                    }
+                })
+                .show();
     }
 }
