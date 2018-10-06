@@ -2,9 +2,12 @@ package ytv.appathon.appathon_igdtu;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +15,7 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +33,12 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import android.view.View;
 
+import com.wafflecopter.multicontactpicker.ContactResult;
+import com.wafflecopter.multicontactpicker.LimitColumn;
+import com.wafflecopter.multicontactpicker.MultiContactPicker;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,6 +57,9 @@ public class MainActivity extends AppCompatActivity
     private LocationManager locationManager;
 
     private double latitude, longitude;
+
+    private static final int CONTACT_PICKER_REQUEST = 991;
+//    private ArrayList<ContactResult> results = new ArrayList<>();
 
     private SmsManager smsManager;
 
@@ -101,6 +112,45 @@ public class MainActivity extends AppCompatActivity
                 }).check();
         init();
         initSafetyTip();
+
+    }
+
+    @OnClick(R.id.btn_contact)
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btn_contact:
+                new MultiContactPicker.Builder(MainActivity.this) //Activity/fragment context
+                        .theme(R.style.MyCustomPickerTheme) //Optional - default: MultiContactPicker.Azure
+                        .hideScrollbar(false) //Optional - default: false
+                        .showTrack(true) //Optional - default: true
+                        .searchIconColor(Color.WHITE) //Option - default: White
+                        .setChoiceMode(MultiContactPicker.CHOICE_MODE_MULTIPLE) //Optional - default: CHOICE_MODE_MULTIPLE
+                        .handleColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
+                        .bubbleColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
+                        .bubbleTextColor(Color.WHITE) //Optional - default: White
+                        .setTitleText("Select Contacts") //Optional - default: Select Contacts
+//                        .setSelectedContacts("10", "5" / myList) //Optional - will pre-select contacts of your choice. String... or List<ContactResult>
+                        .setLoadingType(MultiContactPicker.LOAD_ASYNC) //Optional - default LOAD_ASYNC (wait till all loaded vs stream results)
+                        .limitToColumn(LimitColumn.NONE) //Optional - default NONE (Include phone + email, limiting to one can improve loading time)
+                        .setActivityAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
+                                android.R.anim.fade_in,
+                                android.R.anim.fade_out) //Optional - default: No animation overrides
+                        .showPickerForResult(CONTACT_PICKER_REQUEST);
+            break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CONTACT_PICKER_REQUEST){
+            if(resultCode == RESULT_OK) {
+                List<ContactResult> results = MultiContactPicker.obtainResult(data);
+                Log.d("MyTag", results.get(0).getDisplayName());
+            } else if(resultCode == RESULT_CANCELED){
+                System.out.println("User closed the picker without selecting items.");
+            }
+        }
     }
 
     private void init() {

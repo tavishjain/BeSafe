@@ -12,11 +12,11 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_logo_main"
-        tools:replace="android:icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_logo_main"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,8 +41,10 @@
                 android:resource="@xml/help_widget_info" />
         </receiver>
 
-        <activity android:name=".IntroActivity"
-            android:theme="@style/Theme.Intro"></activity>
+        <activity
+            android:name=".IntroActivity"
+            android:theme="@style/Theme.Intro" />
+        <activity android:name=".SignInActivity"></activity>
     </application>
 
 </manifest>
