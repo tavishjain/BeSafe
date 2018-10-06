@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BeSafe</string>
+    <string name="panic_alert">Panic Alert!</string>
 </resources>

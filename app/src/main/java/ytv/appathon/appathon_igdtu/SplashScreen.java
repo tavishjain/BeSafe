@@ -14,6 +14,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -21,6 +22,6 @@ public class SplashScreen extends AppCompatActivity {
                 startActivity(new Intent(SplashScreen.this, MainActivity.class));
                 finish();
             }
-        }, 2000);
+        }, 700);
     }
 }
