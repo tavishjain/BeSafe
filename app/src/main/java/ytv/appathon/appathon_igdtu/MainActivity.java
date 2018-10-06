@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,14 +22,18 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.single.PermissionListener;
+
 import android.view.View;
 
 import com.wafflecopter.multicontactpicker.ContactResult;
@@ -56,10 +61,10 @@ public class MainActivity extends AppCompatActivity
 
     private double latitude, longitude;
 
-
     private static final int CONTACT_PICKER_REQUEST = 991;
 //    private ArrayList<ContactResult> results = new ArrayList<>();
 
+    private SmsManager smsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,34 +73,45 @@ public class MainActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        smsManager = SmsManager.getDefault();
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        assert mapFragment != null;
+        mapFragment.getMapAsync(this);
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Dexter.withActivity(MainActivity.this)
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new PermissionListener() {
+                .withPermissions(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.SEND_SMS,
+                        Manifest.permission.READ_PHONE_STATE)
+                .withListener(new MultiplePermissionsListener() {
+
                     @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        try {
-                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                                    20000, 0,
-                                    MainActivity.this);
-                        } catch (SecurityException e) {
-                            e.printStackTrace();
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            try {
+                                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                                        1000, 0,
+                                        MainActivity.this);
+                            } catch (SecurityException e) {
+                                e.printStackTrace();
+                            }
+                            init();
+                        } else {
+                            Toast.makeText(MainActivity.this,
+                                    "Location Permission Required",
+                                    Toast.LENGTH_SHORT).show();
+                            finish();
                         }
-                        init();
                     }
 
                     @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(MainActivity.this,
-                                "Location Permission Required",
-                                Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
 
                     }
+
                 }).check();
         init();
         initSafetyTip();
@@ -142,7 +158,7 @@ public class MainActivity extends AppCompatActivity
 
     private void init() {
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("");
         }
         toolbarText.setText(getResources().getString(R.string.app_name));
@@ -169,7 +185,9 @@ public class MainActivity extends AppCompatActivity
 
         LatLng currentLoc = new LatLng(latitude, longitude);
         googleMap.addMarker(new MarkerOptions().position(currentLoc));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLoc));
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLoc));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),
+                location.getLongitude()), 15.0f));
     }
 
     @Override
@@ -188,14 +206,14 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void initSafetyTip(){
+    public void initSafetyTip() {
 
         String safetyTip[] = SafetyTipsFetch.returnDetails();
 
         new LovelyStandardDialog(this, LovelyStandardDialog.ButtonLayout.VERTICAL)
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
-              //TODO add the app icon  .setIcon(R.drawable.ic_star_border_white_36dp)
+                .setIcon(R.drawable.ic_dialog_box_icon)
                 .setTitle(safetyTip[0])
                 .setMessage(safetyTip[1])
                 .setPositiveButton("Hide Tips", new View.OnClickListener() {
@@ -212,4 +230,19 @@ public class MainActivity extends AppCompatActivity
                 })
                 .show();
     }
+
+    @OnClick(R.id.btnStatus)
+    public void sendStatusUpdateMsg() {
+        smsManager.sendTextMessage(
+                "+919811392201",
+                "9899061938",
+                getResources().getString(R.string.help_msg),
+                null,
+                null
+        );
+        Toast.makeText(MainActivity.this,
+                "Location update sent",
+                Toast.LENGTH_SHORT).show();
+    }
+
 }
