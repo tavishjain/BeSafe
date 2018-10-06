@@ -3,19 +3,22 @@ package ytv.appathon.appathon_igdtu;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +33,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import android.view.View;
-
 import com.wafflecopter.multicontactpicker.ContactResult;
 import com.wafflecopter.multicontactpicker.LimitColumn;
 import com.wafflecopter.multicontactpicker.MultiContactPicker;
@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity
     private LocationManager locationManager;
 
     private double latitude, longitude;
+
+    MediaPlayer mp;
 
     private static final int CONTACT_PICKER_REQUEST = 991;
 //    private ArrayList<ContactResult> results = new ArrayList<>();
@@ -142,11 +144,47 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == CONTACT_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 List<ContactResult> results = MultiContactPicker.obtainResult(data);
+
+                setContactName(results.get(0).getDisplayName());
+
+
                 Log.d("MyTag", results.get(0).getDisplayName());
             } else if (resultCode == RESULT_CANCELED) {
                 System.out.println("User closed the picker without selecting items.");
             }
         }
+    }
+
+    @OnClick(R.id.panicBtn)
+    public void panicBtnClick(){
+        audioPlayer();
+        sendStatusUpdateMsg();
+    }
+
+    public void audioPlayer(){
+        //set up MediaPlayer
+        mp = MediaPlayer.create(MainActivity.this, R.raw.siren);
+        mp.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mp.release();
+        super.onDestroy();
+    }
+
+    public void setContactName(String name) {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppLaunch", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("contactName", name);
+        editor.apply();
+    }
+
+    public void setContactNumber(String number) {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppLaunch", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("contactNumber", number);
+        editor.apply();
     }
 
     private void init() {
