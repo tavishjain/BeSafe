@@ -14,5 +14,7 @@
     <string name="send_location_update">Send location\nUpdate</string>
 
     <string name="help_msg">Help!!\nI am in a Problem.\nThis is my current location</string>
+    <string name="safety_score">Check\nSafety Score</string>
+    <string name="call_nearby_police">Call nearby\nPolice</string>
 </resources>
 

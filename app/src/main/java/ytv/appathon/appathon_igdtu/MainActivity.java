@@ -24,11 +24,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 import android.view.View;
 
@@ -135,7 +132,6 @@ public class MainActivity extends AppCompatActivity
 
         LatLng currentLoc = new LatLng(latitude, longitude);
         googleMap.addMarker(new MarkerOptions().position(currentLoc));
-        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLoc));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),
                 location.getLongitude()), 15.0f));
     }
@@ -186,12 +182,14 @@ public class MainActivity extends AppCompatActivity
         smsManager.sendTextMessage(
                 "+919811392201",
                 "9899061938",
-                getResources().getString(R.string.help_msg),
+                getResources().getString(R.string.help_msg) + "\n" +
+                        "https://www.google.com/maps/search/?api=1&query="
+                        + String.valueOf(latitude) + "," + String.valueOf(longitude),
                 null,
                 null
         );
         Toast.makeText(MainActivity.this,
-                "Location update sent",
+                "Status update sent",
                 Toast.LENGTH_SHORT).show();
     }
 
