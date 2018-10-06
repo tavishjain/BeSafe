@@ -163,8 +163,7 @@ public class MainActivity extends AppCompatActivity
         new LovelyStandardDialog(this, LovelyStandardDialog.ButtonLayout.VERTICAL)
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
-                //TODO add the app icon  .setIcon(R.drawable.ic_star_border_white_36dp)
-                .setIcon(R.drawable.app_logo_main_round)
+                .setIcon(R.drawable.ic_dialog_box_icon)
                 .setTitle(safetyTip[0])
                 .setMessage(safetyTip[1])
                 .setPositiveButton("Hide Tips", new View.OnClickListener() {
