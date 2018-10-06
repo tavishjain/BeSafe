@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -15,8 +16,6 @@ import android.widget.Toast;
  */
 public class HelpWidget extends AppWidgetProvider {
 
-    public static String WIDGET_BUTTON = "ytv.appathon.appathon_igdtu.APPWIDGET_UPDATE";
-
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
@@ -26,10 +25,10 @@ public class HelpWidget extends AppWidgetProvider {
             Intent configIntent = new Intent(context, SplashScreen.class);
 
             PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
-            Log.e("tavish", "click");
             remoteViews.setOnClickPendingIntent(R.id.appwidget_help_button, configPendingIntent);
 
             context.startActivity(configIntent);
+
         }
     }
 
